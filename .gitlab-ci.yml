@@ -24,7 +24,8 @@ Create a java-node-chrome docker image:
     - cd java-node-chrome
     - docker build -t "$IMAGE_NAME":latest -f docker-java8-node10-chrome80.dockerfile .
     - docker save "$IMAGE_NAME":latest > "$IMAGE_ARCHIVE"
+    - docker images -a
   artifacts:
     paths:
-      - "$IMAGE_ARCHIVE"
+      - java-node-chrome/$IMAGE_ARCHIVE
     expire_in: 10 minutes
