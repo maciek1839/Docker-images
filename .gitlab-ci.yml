@@ -1,0 +1,30 @@
+image: docker:19.03.8
+
+services:
+  - docker:dind
+
+variables:
+  IMAGE_NAME: "my-docker-image-ubuntu18-java8-node10-chrome80"
+  IMAGE_ARCHIVE: "java-node-chrome.tar"
+
+before_script:
+  - ': before_script'
+  - uname -a
+  - cat /etc/os-release
+  - docker images -a
+  - docker -v
+
+stages:
+  - create-docker-image
+
+Create a java-node-chrome docker image:
+  stage: create-docker-image
+  script:
+    - ': script'
+    - cd java-node-chrome
+    - docker build -t "$IMAGE_NAME":latest -f docker-java8-node10-chrome80.dockerfile .
+    - docker save "$IMAGE_NAME":latest > "$IMAGE_ARCHIVE"
+  artifacts:
+    paths:
+      - "$IMAGE_ARCHIVE"
+    expire_in: 10 minutes
